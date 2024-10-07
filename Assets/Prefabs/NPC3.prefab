@@ -174,7 +174,7 @@ MonoBehaviour:
   moveSpeed: 35
   detectionRange: 30
   fleeDistance: 65
-  threshold: 0
+  threshold: 1
   intensity: 0
   boundaryRadius: 600
   NPCEffect: {fileID: 8468652553625499706, guid: 638a88c9dc7382d4aa6afc8fc9fcee57, type: 3}
