@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
     void RotateSpriteTowardsMovement()
     {
         bool isflip = false;
-            Debug.Log(rb.velocity.x);
             // Check if the NPC is moving (non-zero velocity)
             if (rb.velocity.x != 0)
             {

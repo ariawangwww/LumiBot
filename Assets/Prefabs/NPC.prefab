@@ -176,3 +176,4 @@ MonoBehaviour:
   fleeDistance: 80
   threshold: 5
   intensity: 0
+  boundaryRadius: 600

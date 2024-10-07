@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
     public float sprintCooldownMin; // Minimum cooldown before the next sprint
     public float sprintCooldownMax; // Maximum cooldown before the next sprint
     public float sprintDuration; // How long the sprint lasts
+    public float boundaryRadius;
+    public GameObject EnemyEffect;
 
     private Rigidbody2D rb;
     private Transform player; // Player object
@@ -34,25 +36,32 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         MainBehavior();
-        RotateSpriteTowardsMovement();
     }
+
+    private void Update()
+    {
+        RotateSpriteTowardsMovement();
+        GameObject _playerEffects = Instantiate(EnemyEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Destroy(_playerEffects, 1f);
+    }
+
     void RotateSpriteTowardsMovement()
     {
-        bool isflip = false;
         Debug.Log(rb.velocity.x);
+        bool isflip = false;
         // Check if the NPC is moving (non-zero velocity)
         if (rb.velocity.x != 0)
         {
             // If moving left (negative x direction), flip the sprite
             if (rb.velocity.x < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1); // Flip horizontally
+                transform.localScale = new Vector3(-7, 7, 7); // Flip horizontally
                 isflip = true;
             }
             else
             {
                 // If moving right (positive x direction), reset to normal
-                transform.localScale = new Vector3(1, 1, 1); // Reset flip
+                transform.localScale = new Vector3(7, 7, 7); // Reset flip
                 isflip = false;
             }
         }
@@ -105,7 +114,17 @@ public class EnemyController : MonoBehaviour
         {
             // Normal chase behavior
             Vector2 chaseDirection = (player.position - transform.position).normalized;
-            rb.MovePosition(rb.position + chaseDirection * moveSpeed * Time.deltaTime * Random.Range(2f, 3f));
+            Vector2 newVelocity = chaseDirection * moveSpeed * Random.Range(2f, 3f);
+            if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+            {
+                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
+                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                newVelocity = Vector2.zero;
+            }
+            else
+            {
+                rb.velocity = newVelocity;
+            }
 
             // Countdown to the next sprint
             sprintCooldownTimer -= Time.deltaTime;
@@ -126,7 +145,17 @@ public class EnemyController : MonoBehaviour
         if (sprintTimer > 0)
         {
             // Perform a high-speed dash towards the player
-            rb.velocity = direction * sprintSpeed* Random.Range(4f, 6f);
+            Vector2 newVelocity = direction * sprintSpeed* Random.Range(4f, 6f);
+            if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+            {
+                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
+                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                newVelocity = Vector2.zero;
+            }
+            else
+            {
+                rb.velocity = newVelocity;
+            }
         }
         else
         {

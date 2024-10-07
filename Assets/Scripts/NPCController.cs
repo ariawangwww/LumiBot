@@ -7,6 +7,8 @@ public class NPCController : MonoBehaviour
     public float fleeDistance; // 逃离的距离
     public float threshold; // 阈值
     public int intensity; // NPC的强度
+    public float boundaryRadius;
+    public GameObject NPCEffect;
 
     private Rigidbody2D rb;
     private Transform player; // 玩家对象
@@ -25,26 +27,32 @@ public class NPCController : MonoBehaviour
     void FixedUpdate()
     {
         MainBehavior();
+    }
+
+    private void Update()
+    {
         RotateSpriteTowardsMovement();
+        GameObject _playerEffects = Instantiate(NPCEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Destroy(_playerEffects, 1f);
     }
 
     void RotateSpriteTowardsMovement()
     {
-        bool isflip = false;
         Debug.Log(rb.velocity.x);
+        bool isflip = false;
         // Check if the NPC is moving (non-zero velocity)
         if (rb.velocity.x != 0)
         {
             // If moving left (negative x direction), flip the sprite
             if (rb.velocity.x < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1); // Flip horizontally
+                transform.localScale = new Vector3(-7, 7, 7); // Flip horizontally
                 isflip = true;
             }
             else
             {
                 // If moving right (positive x direction), reset to normal
-                transform.localScale = new Vector3(1, 1, 1); // Reset flip
+                transform.localScale = new Vector3(7, 7, 7); // Reset flip
                 isflip = false;
             }
         }
@@ -101,7 +109,17 @@ public class NPCController : MonoBehaviour
         // NPC在冷却期间保持静止
         if (moveTimer > 0)
         {
-            rb.velocity = currentDirection * moveSpeed * Random.Range(0.5f, 1.5f);
+            Vector2 newVelocity = currentDirection * moveSpeed * Random.Range(0.5f, 1.5f);
+            if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+            {
+                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
+                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                newVelocity = Vector2.zero;
+            }
+            else
+            {
+                rb.velocity = newVelocity;
+            }
         }
         else
         {
