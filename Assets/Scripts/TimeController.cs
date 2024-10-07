@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TimeController : MonoBehaviour
 {
     public Text countdownText;
-    private float timeRemaining = 240f;
+    public float timeRemaining = 240f;
 
     void Update()
     {
