@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public Object player;
     public GameObject PlayerEffect;
     public int LightIntensity;
-    public int health = 3;
 
 
 

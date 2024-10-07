@@ -6,6 +6,9 @@ public class SpriteController : MonoBehaviour
 {
     private Animator anim => GetComponent<Animator>();
     public bool success;
+    public int health = 3;
+    private bool isInvulnerable = false;
+    public float invulnerabilityDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +24,22 @@ public class SpriteController : MonoBehaviour
     public void SetSuccess(bool value)
     {
         success = value;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && !isInvulnerable)
+        {
+            health--;
+            anim.SetInteger("health", health);
+            StartCoroutine(InvulnerabilityCoroutine());
+        }
+    }
+
+    private IEnumerator InvulnerabilityCoroutine()
+    {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(invulnerabilityDuration);
+        isInvulnerable = false;
     }
 }
