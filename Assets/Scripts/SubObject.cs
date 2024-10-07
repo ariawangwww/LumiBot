@@ -18,7 +18,6 @@ public class SubObject : MonoBehaviour
             if (hit != null && hit.gameObject == gameObject)
             {
                 parentObject.SetPlayerAnswer(answerValue);
-                Debug.Log("Ñ¡Ôñ´ð°¸: " + answerValue);
             }
         }
     }
