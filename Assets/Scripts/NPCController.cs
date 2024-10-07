@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    public float moveSpeed = 2f; // 移动速度
-    public float detectionRange = 10f; // 检测玩家的范围
-    public float fleeDistance = 15f; // 逃离的距离
-    public float threshold = 5f; // 阈值
+    public float moveSpeed; // 移动速度
+    public float detectionRange; // 检测玩家的范围
+    public float fleeDistance; // 逃离的距离
+    public float threshold; // 阈值
     public int intensity; // NPC的强度
 
     private Rigidbody2D rb;
@@ -29,7 +29,6 @@ public class NPCController : MonoBehaviour
 
     void MainBehavior()
     {
-
         // 与玩家的距离判断
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -43,14 +42,19 @@ public class NPCController : MonoBehaviour
             else
             {
                 Debug.Log("escp");
-                if (Vector2.Distance(transform.position, player.position) <= fleeDistance)
+                if (distanceToPlayer <= fleeDistance)
                 {
                     Vector2 fleeDirection = (transform.position - player.position).normalized;
-                    rb.MovePosition(rb.position + fleeDirection * moveSpeed * Time.deltaTime * 3f);
+                    rb.velocity = fleeDirection * moveSpeed * Random.Range(2f, 3f);
+                }
+                else
+                {
+                    rb.velocity = Vector2.zero; // Stop moving when not fleeing
                 }
             }
         }
-        else {
+        else
+        {
             Debug.Log("calm");
             MoveRandomlyWithPause();
         }
@@ -60,15 +64,16 @@ public class NPCController : MonoBehaviour
     {
         // 移动计时器减少
         moveTimer -= Time.deltaTime;
-        rb.MovePosition(rb.position + currentDirection * moveSpeed * Time.deltaTime);
 
-        if (moveTimer <= 0)
+        // NPC在冷却期间保持静止
+        if (moveTimer > 0)
         {
-            // 重新设置随机的移动间隔和方向
+            rb.velocity = currentDirection * moveSpeed * Random.Range(0.5f, 1.5f);
+        }
+        else
+        {
+            // 停止移动
             SetRandomMoveTimers();
-
-            // 如果当前是移动阶段，则向随机方向移动
-            
         }
     }
 
