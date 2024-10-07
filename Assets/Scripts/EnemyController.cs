@@ -34,7 +34,42 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         MainBehavior();
+        RotateSpriteTowardsMovement();
     }
+    void RotateSpriteTowardsMovement()
+    {
+        bool isflip = false;
+        Debug.Log(rb.velocity.x);
+        // Check if the NPC is moving (non-zero velocity)
+        if (rb.velocity.x != 0)
+        {
+            // If moving left (negative x direction), flip the sprite
+            if (rb.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1); // Flip horizontally
+                isflip = true;
+            }
+            else
+            {
+                // If moving right (positive x direction), reset to normal
+                transform.localScale = new Vector3(1, 1, 1); // Reset flip
+                isflip = false;
+            }
+        }
+        // Check if the NPC is moving (non-zero velocity)
+        if (rb.velocity != Vector2.zero)
+        {
+            // Calculate the angle in degrees from the velocity
+            float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+            if (isflip)
+            {
+                angle -= 180;
+            }
+            // Rotate the NPC sprite to face the movement direction
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
+    }
+
 
     void MainBehavior()
     {
@@ -43,7 +78,6 @@ public class EnemyController : MonoBehaviour
 
         if (distanceToPlayer < detectionRange)
         {
-            Debug.Log("enemy-chase");
             if (distanceToPlayer <= chaseDistance)
             {
                 ChasePlayer();
@@ -51,7 +85,6 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("enemy-calm");
             MoveRandomlyWithPause();
         }
     }
@@ -88,7 +121,6 @@ public class EnemyController : MonoBehaviour
 
     void Sprint(Vector2 direction)
     {
-        Debug.Log("enemy-sprint");
         sprintTimer -= Time.deltaTime;
 
         if (sprintTimer > 0)
@@ -127,10 +159,5 @@ public class EnemyController : MonoBehaviour
     {
         // Reset the sprint cooldown to a random value between the min and max
         sprintCooldownTimer = Random.Range(sprintCooldownMin, sprintCooldownMax);
-    }
-
-    void SuccessTest()
-    {
-        Debug.Log("success");
     }
 }
