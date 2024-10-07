@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public GameObject PlayerEffect;
     public int LightIntensity;
     SpriteController spritecontroller;
-
+    AudioManager manager;
 
 
     private void Start()
@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
         LightIntensity = 1;
         GameObject spriteobj = GameObject.FindWithTag("Sprite");
         spritecontroller = spriteobj.GetComponent<SpriteController>();
+        GameObject managerobj = GameObject.FindWithTag("Audio");
+        manager = managerobj.GetComponent<AudioManager>();
     }
     void FixedUpdate()
     {
@@ -103,6 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            manager.PlayNeedleSound();
             if (LightIntensity > 1)
             {
                 LightIntensity = LightIntensity - 1;
@@ -110,6 +113,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
+            manager.PlayNeedleSound();
             if (LightIntensity < 3)
             {
                 LightIntensity = LightIntensity + 1;

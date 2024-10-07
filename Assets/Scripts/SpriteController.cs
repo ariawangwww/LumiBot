@@ -9,10 +9,13 @@ public class SpriteController : MonoBehaviour
     public int health = 3;
     private bool isInvulnerable = false;
     public float invulnerabilityDuration = 1f;
+    AudioManager manager;
     // Start is called before the first frame update
     void Start()
     {
         anim.SetInteger("health", 3);
+        GameObject managerobj = GameObject.FindWithTag("Audio");
+        manager = managerobj.GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -30,6 +33,7 @@ public class SpriteController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !isInvulnerable)
         {
+            manager.PlayRandomSound();
             health--;
             anim.SetInteger("health", health);
             StartCoroutine(InvulnerabilityCoroutine());

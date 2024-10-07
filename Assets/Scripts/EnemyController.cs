@@ -26,6 +26,8 @@ public class EnemyController : MonoBehaviour
     private float sprintCooldownTimer; // Timer to control when the next sprint can occur
     private Vector2 direction;
     private Animator anim => GetComponent<Animator>();
+    private bool playedfx = false;
+    AudioManager manager;
 
     void Start()
     {
@@ -33,6 +35,8 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform; // Assumes the player has a "Player" tag
         ResetSprintCooldown(); // Initialize sprint cooldown
+        GameObject managerobj = GameObject.FindWithTag("Audio");
+        manager = managerobj.GetComponent<AudioManager>();
     }
 
     void FixedUpdate()
@@ -84,7 +88,16 @@ public class EnemyController : MonoBehaviour
         {
             if (distanceToPlayer <= chaseDistance)
             {
+                if(!playedfx)
+                {
+                    manager.PlayChaseSound();
+                    playedfx = true;
+                }
                 ChasePlayer();
+            }
+            else
+            {
+                playedfx = false;
             }
         }
         else
@@ -117,7 +130,7 @@ public class EnemyController : MonoBehaviour
                 do
                 {
                     spawnPosition = Random.insideUnitCircle * 550;
-                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
                 transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }
@@ -142,6 +155,7 @@ public class EnemyController : MonoBehaviour
     {
         if (anim.GetInteger("Status") == 1)
         {
+            manager.PlayGrowlSound();
             anim.SetInteger("Status", 2);
         }
         if (!setDirection)
@@ -163,7 +177,7 @@ public class EnemyController : MonoBehaviour
                 do
                 {
                     spawnPosition = Random.insideUnitCircle * 550;
-                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
                 transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }

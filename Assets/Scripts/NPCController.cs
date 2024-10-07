@@ -21,6 +21,7 @@ public class NPCController : MonoBehaviour
     private float moveTimer; // 用来计时
     PlayerController playercontroller;
     SpriteController spritecontroller;
+    AudioManager manager;
 
     void Start()
     {
@@ -30,6 +31,8 @@ public class NPCController : MonoBehaviour
         playercontroller = playerobj.GetComponent<PlayerController>();
         GameObject spriteobj = GameObject.FindWithTag("Sprite");
         spritecontroller = spriteobj.GetComponent<SpriteController>();
+        GameObject managerobj = GameObject.FindWithTag("Audio");
+        manager = managerobj.GetComponent<AudioManager>();
     }
 
     void FixedUpdate()
@@ -105,7 +108,7 @@ public class NPCController : MonoBehaviour
                         do
                         {
                             spawnPosition = Random.insideUnitCircle * 550;
-                        } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                        } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
                         transform.position = spawnPosition;
                         newVelocity = Vector2.zero;
                     }
@@ -178,6 +181,7 @@ public class NPCController : MonoBehaviour
     {
         if (!spritecontroller.success) {
             notifyunsuccess = true;
+            manager.PlayCheckSound();
         }
         spritecontroller.SetSuccess(true);
         success = true;
@@ -191,7 +195,7 @@ public class NPCController : MonoBehaviour
             do
             {
                 spawnPosition = Random.insideUnitCircle * 550;
-            } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+            } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
             transform.position = spawnPosition;
             newVelocity = Vector2.zero;
         }

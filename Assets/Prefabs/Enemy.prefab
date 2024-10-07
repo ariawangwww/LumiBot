@@ -164,10 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d920cdd5403f6d143bec512eba3f322d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 35
-  sprintSpeed: 35
-  detectionRange: 400
-  chaseDistance: 100
+  moveSpeed: 32
+  sprintSpeed: 32
+  detectionRange: 999
+  chaseDistance: 130
   sprintCooldownMin: 3
   sprintCooldownMax: 5
   sprintDuration: 3

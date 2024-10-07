@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sprite
   - Enemy
+  - Audio
   layers:
   - Default
   - TransparentFX
