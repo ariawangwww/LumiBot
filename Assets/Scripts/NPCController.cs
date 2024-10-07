@@ -26,14 +26,14 @@ public class NPCController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform; // 假设玩家有"Player"标签
-    }
-
-    void FixedUpdate()
-    {
         GameObject playerobj = GameObject.FindWithTag("Player");
         playercontroller = playerobj.GetComponent<PlayerController>();
         GameObject spriteobj = GameObject.FindWithTag("Sprite");
         spritecontroller = spriteobj.GetComponent<SpriteController>();
+    }
+
+    void FixedUpdate()
+    {
         intensity = playercontroller.LightIntensity;
         MainBehavior();
     }

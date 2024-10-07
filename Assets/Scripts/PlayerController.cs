@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Object player;
     public GameObject PlayerEffect;
     public int LightIntensity;
+    SpriteController spritecontroller;
 
 
 
@@ -18,36 +19,41 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         LightIntensity = 1;
+        GameObject spriteobj = GameObject.FindWithTag("Sprite");
+        spritecontroller = spriteobj.GetComponent<SpriteController>();
     }
     void FixedUpdate()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = 49f;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        Vector2 direction = (mousePosition - transform.position).normalized;
-        float distance = Vector2.Distance(mousePosition, transform.position);
-
-        float speed = Mathf.Lerp(minSpeed, maxSpeed, distance);
-        Vector2 newVelocity = direction * speed;
-
-        if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+        if(spritecontroller.health > 0)
         {
-            Vector2 spawnPosition;
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 49f;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-            // 确保生成位置不在半径为40的圆内
-            do
+            Vector2 direction = (mousePosition - transform.position).normalized;
+            float distance = Vector2.Distance(mousePosition, transform.position);
+
+            float speed = Mathf.Lerp(minSpeed, maxSpeed, distance);
+            Vector2 newVelocity = direction * speed;
+
+            if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
-                spawnPosition = Random.insideUnitCircle * 550;
-            } while (spawnPosition.magnitude < 40);
-            transform.position = spawnPosition;
-            newVelocity = Vector2.zero;
+                Vector2 spawnPosition;
+
+                // 确保生成位置不在半径为40的圆内
+                do
+                {
+                    spawnPosition = Random.insideUnitCircle * 550;
+                } while (spawnPosition.magnitude < 40);
+                transform.position = spawnPosition;
+                newVelocity = Vector2.zero;
+            }
+            else
+            {
+                rb.velocity = newVelocity;
+            }
+            RotateSpriteTowardsMovement();
         }
-        else
-        {
-            rb.velocity = newVelocity;
-        }
-        RotateSpriteTowardsMovement();
     }
 
     void RotateSpriteTowardsMovement()
@@ -85,9 +91,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        GameObject _playerEffects = Instantiate(PlayerEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z + 50), Quaternion.identity);
-        Destroy(_playerEffects, 1f);
-        GetInput();
+        if(spritecontroller.health > 0)
+        {
+            GameObject _playerEffects = Instantiate(PlayerEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z + 50), Quaternion.identity);
+            Destroy(_playerEffects, 1f);
+            GetInput();
+        }
     }
 
     public void GetInput()
