@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
-public class NeedleScript : MonoBehaviour
+public class NeedleController : MonoBehaviour
 {
     public int LightIntensity;
 
