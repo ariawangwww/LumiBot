@@ -1728,6 +1728,7 @@ GameObject:
   - component: {fileID: 1328644689}
   - component: {fileID: 1328644688}
   - component: {fileID: 1328644690}
+  - component: {fileID: 1328644691}
   m_Layer: 5
   m_Name: needle
   m_TagString: Untagged
@@ -1742,13 +1743,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328644686}
-  m_LocalRotation: {x: -0, y: -0, z: 0.0013639699, w: 0.9999991}
+  m_LocalRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: -0.00005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 181233635}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.156}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.2269287, y: 0}
@@ -1844,6 +1845,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1328644691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328644686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8879b4a62ea9948ac8109877becfc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightIntensity: 0
+--- !u!1 &1353842006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1353842007}
+  m_Layer: 0
+  m_Name: NPC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1353842007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353842006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.186924, y: -20.28304, z: 17.524773}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1512207271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,6 +2016,7 @@ MonoBehaviour:
   boundaryRadius: 600
   player: {fileID: 1844118438}
   PlayerEffect: {fileID: 3363044856523271739, guid: 01c0617c3cfb8d54c9f2d657229c2fd9, type: 3}
+  LightIntensity: 1
 --- !u!50 &1844118443
 Rigidbody2D:
   serializedVersion: 4
@@ -2158,3 +2204,4 @@ SceneRoots:
   - {fileID: 1009917091}
   - {fileID: 1112705010}
   - {fileID: 1844118441}
+  - {fileID: 1353842007}

@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float maxSpeed; // 最大速度
-    public float minSpeed;  // 最小速度
-    public Rigidbody2D rb;       // 主角的 Rigidbody2D
+    public float maxSpeed;
+    public float minSpeed;
+    public Rigidbody2D rb;
     public float boundaryRadius;
     public Object player;
     public GameObject PlayerEffect;
+    public int LightIntensity;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        LightIntensity = 1;
     }
     void FixedUpdate()
     {
@@ -29,20 +31,38 @@ public class PlayerController : MonoBehaviour
 
         if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
         {
-            // 限制位置在圆形区域内，保留 z 坐标
             Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
-            rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z)); // 保持 z 坐标
-            newVelocity = Vector2.zero; // 停止移动
+            rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+            newVelocity = Vector2.zero;
         }
         else
         {
-            rb.velocity = newVelocity; // 正常更新速度
+            rb.velocity = newVelocity;
         }
     }
 
     private void Update()
     {
         GameObject _playerEffects = Instantiate(PlayerEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z + 50), Quaternion.identity);
-        Destroy(_playerEffects, 10f);
+        Destroy(_playerEffects, 1f);
+        GetInput();
+    }
+
+    public void GetInput()
+    {
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (LightIntensity > 1)
+            {
+                LightIntensity = LightIntensity - 1;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (LightIntensity < 3)
+            {
+                LightIntensity = LightIntensity + 1;
+            }
+        }
     }
 }
