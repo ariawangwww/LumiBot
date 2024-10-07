@@ -178,3 +178,5 @@ MonoBehaviour:
   sprintCooldownMin: 6
   sprintCooldownMax: 9
   sprintDuration: 3
+  boundaryRadius: 0
+  EnemyEffect: {fileID: 7726953315560518484, guid: 2637447c4a655be4ab347e2231a28c96, type: 3}
