@@ -438,6 +438,10 @@ PrefabInstance:
       propertyPath: NPCEffect
       value: 
       objectReference: {fileID: 8468652553625499706, guid: 638a88c9dc7382d4aa6afc8fc9fcee57, type: 3}
+    - target: {fileID: 4092045870212883885, guid: 52779f74b870a864181d7874ab0f3d2d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 986f8d08be752664ebb91a70efa63dff, type: 3}
     - target: {fileID: 4275641065722147590, guid: 52779f74b870a864181d7874ab0f3d2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.1
