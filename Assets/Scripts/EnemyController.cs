@@ -24,10 +24,12 @@ public class EnemyController : MonoBehaviour
     private bool setDirection = false;
     private float sprintTimer; // Timer to control the sprint duration
     private float sprintCooldownTimer; // Timer to control when the next sprint can occur
-    Vector2 sprintDirection;
+    private Vector2 direction;
+    private Animator anim => GetComponent<Animator>();
 
     void Start()
     {
+        anim.SetInteger("Status", 0);
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform; // Assumes the player has a "Player" tag
         ResetSprintCooldown(); // Initialize sprint cooldown
@@ -47,22 +49,18 @@ public class EnemyController : MonoBehaviour
 
     void RotateSpriteTowardsMovement()
     {
-        Debug.Log(rb.velocity.x);
-        bool isflip = false;
         // Check if the NPC is moving (non-zero velocity)
         if (rb.velocity.x != 0)
         {
             // If moving left (negative x direction), flip the sprite
             if (rb.velocity.x < 0)
             {
-                transform.localScale = new Vector3(-7, 7, 7); // Flip horizontally
-                isflip = true;
+                transform.localScale = new Vector3(-13, 13, 13); // Flip horizontally
             }
             else
             {
                 // If moving right (positive x direction), reset to normal
-                transform.localScale = new Vector3(7, 7, 7); // Reset flip
-                isflip = false;
+                transform.localScale = new Vector3(13, 13, 13); // Reset flip
             }
         }
         // Check if the NPC is moving (non-zero velocity)
@@ -70,10 +68,7 @@ public class EnemyController : MonoBehaviour
         {
             // Calculate the angle in degrees from the velocity
             float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-            if (isflip)
-            {
-                angle -= 180;
-            }
+            angle += 90;
             // Rotate the NPC sprite to face the movement direction
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
@@ -103,12 +98,11 @@ public class EnemyController : MonoBehaviour
         // Check if the enemy is sprinting
         if (isSprinting)
         {
-            if(!setDirection)
+            if(anim.GetInteger("Status") == 0)
             {
-                sprintDirection = (player.position - transform.position).normalized;
-                setDirection = true;
+                anim.SetInteger("Status", 1);
             }
-            Sprint(sprintDirection); // Perform the sprint
+            Invoke("Sprint", 1f); // Perform the sprint
         }
         else
         {
@@ -138,14 +132,23 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Sprint(Vector2 direction)
+    void Sprint()
     {
+        if (anim.GetInteger("Status") == 1)
+        {
+            anim.SetInteger("Status", 2);
+        }
+        if (!setDirection)
+        {
+            direction = (player.position - transform.position).normalized;
+            setDirection = true;
+        }
         sprintTimer -= Time.deltaTime;
 
         if (sprintTimer > 0)
         {
             // Perform a high-speed dash towards the player
-            Vector2 newVelocity = direction * sprintSpeed* Random.Range(4f, 6f);
+            Vector2 newVelocity = direction * sprintSpeed* Random.Range(3.5f, 5f);
             if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
                 Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
@@ -162,6 +165,7 @@ public class EnemyController : MonoBehaviour
             // Stop sprinting once the duration is over
             isSprinting = false;
             setDirection = false;
+            anim.SetInteger("Status", 0);
         }
     }
 

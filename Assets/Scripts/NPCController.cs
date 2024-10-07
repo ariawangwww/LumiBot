@@ -9,14 +9,18 @@ public class NPCController : MonoBehaviour
     public int intensity; // NPC的强度
     public float boundaryRadius;
     public GameObject NPCEffect;
+    public bool success;
 
     private Rigidbody2D rb;
     private Transform player; // 玩家对象
+    private bool notifyunsuccess = false;
 
     private Vector2 currentDirection; // 当前的移动方向
     private float moveDuration; // 移动的持续时间
     private float moveCooldown; // 移动间隔时间
     private float moveTimer; // 用来计时
+    PlayerController playercontroller;
+    SpriteController spritecontroller;
 
     void Start()
     {
@@ -26,6 +30,11 @@ public class NPCController : MonoBehaviour
 
     void FixedUpdate()
     {
+        GameObject playerobj = GameObject.FindWithTag("Player");
+        playercontroller = playerobj.GetComponent<PlayerController>();
+        GameObject spriteobj = GameObject.FindWithTag("Sprite");
+        spritecontroller = spriteobj.GetComponent<SpriteController>();
+        intensity = playercontroller.LightIntensity;
         MainBehavior();
     }
 
@@ -38,7 +47,6 @@ public class NPCController : MonoBehaviour
 
     void RotateSpriteTowardsMovement()
     {
-        Debug.Log(rb.velocity.x);
         bool isflip = false;
         // Check if the NPC is moving (non-zero velocity)
         if (rb.velocity.x != 0)
@@ -46,13 +54,13 @@ public class NPCController : MonoBehaviour
             // If moving left (negative x direction), flip the sprite
             if (rb.velocity.x < 0)
             {
-                transform.localScale = new Vector3(-7, 7, 7); // Flip horizontally
+                transform.localScale = new Vector3(-6, 6, 6); // Flip horizontally
                 isflip = true;
             }
             else
             {
                 // If moving right (positive x direction), reset to normal
-                transform.localScale = new Vector3(7, 7, 7); // Reset flip
+                transform.localScale = new Vector3(6, 6, 6); // Reset flip
                 isflip = false;
             }
         }
@@ -84,6 +92,7 @@ public class NPCController : MonoBehaviour
             }
             else
             {
+                spritecontroller.success = false;
                 if (distanceToPlayer <= fleeDistance)
                 {
                     Vector2 fleeDirection = (transform.position - player.position).normalized;
@@ -97,7 +106,13 @@ public class NPCController : MonoBehaviour
         }
         else
         {
+            spritecontroller.success = false;
             MoveRandomlyWithPause();
+        }
+        if(!spritecontroller.success && notifyunsuccess)
+        {
+            spritecontroller.SetSuccess(false);
+            notifyunsuccess = false;
         }
     }
 
@@ -143,5 +158,21 @@ public class NPCController : MonoBehaviour
 
     void SuccessTest()
     {
+        if (!spritecontroller.success) {
+            spritecontroller.SetSuccess(true);
+            notifyunsuccess = true;
+        }
+        Vector2 chaseDirection = (player.position - transform.position).normalized;
+        Vector2 newVelocity = chaseDirection * moveSpeed * Random.Range(0.2f, 0.4f);
+        if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+        {
+            Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
+            rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+            newVelocity = Vector2.zero;
+        }
+        else
+        {
+            rb.velocity = newVelocity;
+        }
     }
 }

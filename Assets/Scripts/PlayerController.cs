@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public Object player;
     public GameObject PlayerEffect;
     public int LightIntensity;
+    public int health = 3;
+
+
 
     private void Start()
     {
@@ -45,22 +48,22 @@ public class PlayerController : MonoBehaviour
     void RotateSpriteTowardsMovement()
     {
         bool isflip = false;
-            // Check if the NPC is moving (non-zero velocity)
-            if (rb.velocity.x != 0)
+        // Check if the NPC is moving (non-zero velocity)
+        if (rb.velocity.x != 0)
+        {
+            // If moving left (negative x direction), flip the sprite
+            if (rb.velocity.x < 0)
             {
-                // If moving left (negative x direction), flip the sprite
-                if (rb.velocity.x < 0)
-                {
-                    transform.localScale = new Vector3(-1, 1, 1); // Flip horizontally
-                    isflip = true;
-                }
-                else
-                {
-                    // If moving right (positive x direction), reset to normal
-                    transform.localScale = new Vector3(1, 1, 1); // Reset flip
-                    isflip = false;
+                transform.localScale = new Vector3(-1, 1, 1); // Flip horizontally
+                isflip = true;
             }
+            else
+            {
+                // If moving right (positive x direction), reset to normal
+                transform.localScale = new Vector3(1, 1, 1); // Reset flip
+                isflip = false;
             }
+        }
         // Check if the NPC is moving (non-zero velocity)
         if (rb.velocity != Vector2.zero)
         {
@@ -100,3 +103,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 }
+    
