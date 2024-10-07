@@ -111,8 +111,14 @@ public class EnemyController : MonoBehaviour
             Vector2 newVelocity = chaseDirection * moveSpeed * Random.Range(2f, 3f);
             if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
-                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
-                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                Vector2 spawnPosition;
+
+                // 确保生成位置不在半径为40的圆内
+                do
+                {
+                    spawnPosition = Random.insideUnitCircle * 550;
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }
             else
@@ -151,8 +157,14 @@ public class EnemyController : MonoBehaviour
             Vector2 newVelocity = direction * sprintSpeed* Random.Range(3.5f, 5f);
             if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
-                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
-                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                Vector2 spawnPosition;
+
+                // 确保生成位置不在半径为40的圆内
+                do
+                {
+                    spawnPosition = Random.insideUnitCircle * 550;
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }
             else

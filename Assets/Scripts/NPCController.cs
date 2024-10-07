@@ -92,24 +92,36 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                spritecontroller.success = false;
+                success = false;
                 if (distanceToPlayer <= fleeDistance)
                 {
                     Vector2 fleeDirection = (transform.position - player.position).normalized;
-                    rb.velocity = fleeDirection * moveSpeed * Random.Range(2f, 3f);
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero; // Stop moving when not fleeing
+                    Vector2 newVelocity = fleeDirection * moveSpeed * Random.Range(2f, 3f);
+                    if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
+                    {
+                        Vector2 spawnPosition;
+
+                        // 确保生成位置不在半径为40的圆内
+                        do
+                        {
+                            spawnPosition = Random.insideUnitCircle * 550;
+                        } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+                        transform.position = spawnPosition;
+                        newVelocity = Vector2.zero;
+                    }
+                    else
+                    {
+                        rb.velocity = newVelocity;
+                    }
                 }
             }
         }
         else
         {
-            spritecontroller.success = false;
+            success = false;
             MoveRandomlyWithPause();
         }
-        if(!spritecontroller.success && notifyunsuccess)
+        if(!success && notifyunsuccess)
         {
             spritecontroller.SetSuccess(false);
             notifyunsuccess = false;
@@ -127,8 +139,14 @@ public class NPCController : MonoBehaviour
             Vector2 newVelocity = currentDirection * moveSpeed * Random.Range(0.5f, 1.5f);
             if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
-                Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
-                rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+                Vector2 spawnPosition;
+
+                // 确保生成位置不在半径为40的圆内
+                do
+                {
+                    spawnPosition = Random.insideUnitCircle * 550;
+                } while (spawnPosition.magnitude < 40);
+                transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }
             else
@@ -159,15 +177,22 @@ public class NPCController : MonoBehaviour
     void SuccessTest()
     {
         if (!spritecontroller.success) {
-            spritecontroller.SetSuccess(true);
             notifyunsuccess = true;
         }
+        spritecontroller.SetSuccess(true);
+        success = true;
         Vector2 chaseDirection = (player.position - transform.position).normalized;
         Vector2 newVelocity = chaseDirection * moveSpeed * Random.Range(0.2f, 0.4f);
         if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
         {
-            Vector2 boundaryPosition = (transform.position - new Vector3(0, 0, 50)).normalized * boundaryRadius * 1.01f;
-            rb.MovePosition(new Vector3(boundaryPosition.x, boundaryPosition.y, transform.position.z));
+            Vector2 spawnPosition;
+
+            // 确保生成位置不在半径为40的圆内
+            do
+            {
+                spawnPosition = Random.insideUnitCircle * 550;
+            } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
+            transform.position = spawnPosition;
             newVelocity = Vector2.zero;
         }
         else
