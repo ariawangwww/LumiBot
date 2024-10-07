@@ -56,6 +56,12 @@ TagManager:
   - name: FrontEnvironment
     uniqueID: 4216049121
     locked: 0
+  - name: CHART
+    uniqueID: 4029907643
+    locked: 0
+  - name: npc
+    uniqueID: 1856575277
+    locked: 0
   - name: UI
     uniqueID: 1544270441
     locked: 0
