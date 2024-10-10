@@ -164,13 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d920cdd5403f6d143bec512eba3f322d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 32
-  sprintSpeed: 32
+  moveSpeed: 21
+  sprintSpeed: 21
   detectionRange: 999
   chaseDistance: 130
-  sprintCooldownMin: 3
-  sprintCooldownMax: 5
-  sprintDuration: 3
+  sprintCooldownMin: 4
+  sprintCooldownMax: 8
+  sprintDuration: 3.5
   boundaryRadius: 600
   EnemyEffect: {fileID: 7726953315560518484, guid: 2637447c4a655be4ab347e2231a28c96, type: 3}
 --- !u!61 &5054744640996185175

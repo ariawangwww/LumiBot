@@ -108,7 +108,7 @@ public class NPCController : MonoBehaviour
                         do
                         {
                             spawnPosition = Random.insideUnitCircle * 550;
-                        } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
+                        } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
                         transform.position = spawnPosition;
                         newVelocity = Vector2.zero;
                     }
@@ -195,7 +195,7 @@ public class NPCController : MonoBehaviour
             do
             {
                 spawnPosition = Random.insideUnitCircle * 550;
-            } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
+            } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
             transform.position = spawnPosition;
             newVelocity = Vector2.zero;
         }

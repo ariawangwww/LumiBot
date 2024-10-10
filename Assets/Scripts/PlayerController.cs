@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
                 {
                     spawnPosition = Random.insideUnitCircle * 550;
                 } while (spawnPosition.magnitude < 40);
-                transform.position = spawnPosition;
+                transform.position = new Vector3(spawnPosition.x, spawnPosition.y, -50f);
                 newVelocity = Vector2.zero;
             }
             else

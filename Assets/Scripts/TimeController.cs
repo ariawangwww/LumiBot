@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TimeController : MonoBehaviour
 {
     public Text countdownText;
-    public float timeRemaining = 240f;
+    public float timeRemaining = 180f;
 
     void Update()
     {
@@ -12,6 +13,9 @@ public class TimeController : MonoBehaviour
         {
             timeRemaining -= Time.deltaTime;
             UpdateTimerDisplay();
+        }
+        if (timeRemaining <= 0) {
+            SceneManager.LoadScene(3);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpriteController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SpriteController : MonoBehaviour
     public int health = 3;
     private bool isInvulnerable = false;
     public float invulnerabilityDuration = 1f;
+    private bool waiting = false;
     AudioManager manager;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,19 @@ public class SpriteController : MonoBehaviour
     void Update()
     {
         anim.SetBool("success", success);
+        if(health == 0)
+        {
+            if(!waiting)
+            {
+                Invoke("Load", 3f);
+                waiting = true;
+            }
+        }
+    }
+
+    void Load()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void SetSuccess(bool value)

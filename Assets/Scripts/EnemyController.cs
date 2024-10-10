@@ -119,6 +119,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            Debug.Log("normal");
             // Normal chase behavior
             Vector2 chaseDirection = (player.position - transform.position).normalized;
             Vector2 newVelocity = chaseDirection * moveSpeed * Random.Range(2f, 3f);
@@ -130,7 +131,7 @@ public class EnemyController : MonoBehaviour
                 do
                 {
                     spawnPosition = Random.insideUnitCircle * 550;
-                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
                 transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }
@@ -168,7 +169,7 @@ public class EnemyController : MonoBehaviour
         if (sprintTimer > 0)
         {
             // Perform a high-speed dash towards the player
-            Vector2 newVelocity = direction * sprintSpeed* Random.Range(3.5f, 5f);
+            Vector2 newVelocity = direction * sprintSpeed * Random.Range(3.5f, 5f);
             if (Vector2.Distance(Vector2.zero, transform.position) > boundaryRadius)
             {
                 Vector2 spawnPosition;
@@ -177,7 +178,7 @@ public class EnemyController : MonoBehaviour
                 do
                 {
                     spawnPosition = Random.insideUnitCircle * 550;
-                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 250);
+                } while (spawnPosition.magnitude < 40 || Vector2.Distance(spawnPosition, player.position) < 150);
                 transform.position = spawnPosition;
                 newVelocity = Vector2.zero;
             }

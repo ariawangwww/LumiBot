@@ -1235,7 +1235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -267.7, y: 199.6}
+  m_AnchoredPosition: {x: -288, y: 202}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789385294
@@ -1251,7 +1251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 789385295}
-  timeRemaining: 240
+  timeRemaining: 180
 --- !u!114 &789385295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1801,7 +1801,13 @@ MonoBehaviour:
   - {fileID: 8283879920835781648, guid: 8e4f5bc7afc09f3409bfcd31e85e2a14, type: 3}
   - {fileID: 4668816655630836920, guid: f2a1c05cea108a94b923ebcf38e405d7, type: 3}
   - {fileID: 6218247680395578186, guid: d2cf335b5c2d559419786831e0454c44, type: 3}
-  npcCounts: 090000000c0000000f0000000c000000090000000c0000000f0000000c000000
+  obsPrefabs:
+  - {fileID: 3780597857749299562, guid: 4410fe6a10b179f4b8d09c27f623c8cc, type: 3}
+  - {fileID: 3384758438142343863, guid: ba1dd513527911c478857d30938f1021, type: 3}
+  - {fileID: 7919180319026989086, guid: 4c3d220bfec9ba44599f855064c2c2d0, type: 3}
+  - {fileID: 739642134635201382, guid: 6efb9e154c80ef546885fc2440965e99, type: 3}
+  - {fileID: 2643366537625038873, guid: e8dc861637a7fcf4aa3e2075a7e29067, type: 3}
+  npcCounts: 090000000c0000000f0000000c000000090000000c0000000f00000006000000
 --- !u!1 &1117542729
 GameObject:
   m_ObjectHideFlags: 0
